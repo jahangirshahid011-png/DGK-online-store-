@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>DGK Online Store</title>
+<style>
+*{box-sizing:border-box}body{margin:0;font-family:Arial,sans-serif;background:#f4f5f7;color:#151515}
+header{background:#111;color:#fff;position:sticky;top:0;z-index:10}.head{max-width:1150px;margin:auto;padding:13px 16px;display:flex;align-items:center;gap:14px}.logo{font-size:24px;font-weight:900;letter-spacing:1px;white-space:nowrap}.logo small{display:block;font-size:8px;letter-spacing:3px;text-align:center;color:#bbb}
+.search{flex:1;padding:11px;border-radius:7px;border:0}.cart,.adminBtn{padding:11px 14px;border:0;border-radius:7px;cursor:pointer;font-weight:bold}.cart{background:#fff}.adminBtn{background:#555;color:#fff}
+nav{background:#fff;border-bottom:1px solid #ddd}.nav{max-width:1150px;margin:auto;padding:10px 16px;display:flex;gap:20px}.nav a{color:#222;text-decoration:none}
+.hero{background:linear-gradient(120deg,#111,#444);color:white;padding:55px 16px}.heroin{max-width:1150px;margin:auto}.hero h1{font-size:42px;margin:0 0 10px}.hero p{color:#ddd}.wrap{max-width:1150px;margin:auto;padding:30px 16px}
+.filters{display:flex;gap:8px;flex-wrap:wrap;margin:15px 0}.filter{padding:9px 14px;border:1px solid #ccc;background:white;border-radius:20px;cursor:pointer}.active{background:#111;color:white}
+.grid{display:grid;grid-template-columns:repeat(4,1fr);gap:16px}.card{background:white;border:1px solid #ddd;border-radius:10px;overflow:hidden}.photo{height:220px;background:#eee;display:flex;align-items:center;justify-content:center;color:#888}.photo img{width:100%;height:100%;object-fit:cover}.body{padding:14px}.cat{font-size:12px;color:#777}.name{font-weight:bold;margin:7px 0}.price{font-size:19px;font-weight:800}.add{margin-top:11px;width:100%;padding:10px;background:#111;color:#fff;border:0;border-radius:6px;cursor:pointer}
+.overlay{display:none;position:fixed;inset:0;background:#0008;z-index:50}.panel{background:#fff;width:min(520px,100%);height:100%;margin-left:auto;padding:20px;overflow:auto}.close{float:right;border:0;border-radius:50%;width:32px;height:32px}.row{display:flex;gap:10px;align-items:center;border-bottom:1px solid #ddd;padding:12px 0}.row img{width:65px;height:65px;object-fit:cover;border-radius:7px}.form input,.form textarea,.form select{width:100%;padding:11px;margin:6px 0;border:1px solid #ccc;border-radius:6px}.form textarea{height:75px}.primary{width:100%;padding:12px;background:#111;color:#fff;border:0;border-radius:7px;font-weight:bold;cursor:pointer}.green{background:#159447}.total{display:flex;justify-content:space-between;font-size:20px;font-weight:bold;margin:18px 0}
+.admin{display:none}.adminBox{background:white;border:1px solid #ddd;border-radius:10px;padding:20px;margin-top:20px}.adminGrid{display:grid;grid-template-columns:1fr 1fr;gap:12px}.adminBox input,.adminBox select,.adminBox textarea{width:100%;padding:11px;margin:5px 0;border:1px solid #ccc;border-radius:6px}.preview{width:120px;height:120px;object-fit:cover;background:#eee;margin:8px 0;border-radius:8px}.productManage{border-top:1px solid #ddd;margin-top:20px;padding-top:15px}.manageItem{display:flex;align-items:center;gap:10px;padding:10px 0;border-bottom:1px solid #eee}.manageItem img{width:55px;height:55px;object-fit:cover;border-radius:6px}.danger{background:#b42318;color:#fff;border:0;padding:8px;border-radius:6px;cursor:pointer}
+footer{background:#111;color:#ccc;padding:25px;text-align:center;margin-top:30px}
+@media(max-width:850px){.grid{grid-template-columns:repeat(2,1fr)}.head{flex-wrap:wrap}.search{order:4;flex-basis:100%}.adminGrid{grid-template-columns:1fr}}
+@media(max-width:500px){.grid{gap:9px}.photo{height:170px}.hero h1{font-size:31px}}
+</style>
+</head>
+<body>
+<header><div class="head"><div class="logo">DGK<small>ONLINE STORE</small></div><input class="search" id="search" placeholder="Search products..." oninput="render()"><button class="cart" onclick="openCart()">🛒 Cart (<span id="count">0</span>)</button><button class="adminBtn" onclick="openAdmin()">Admin</button></div></header>
+<nav><div class="nav"><a href="#home">Home</a><a href="#products">Products</a><a href="#payment">Payment</a><a href="#contact">Contact</a></div></nav>
+
+<section class="hero" id="home"><div class="heroin"><h1>Shop Perfumes & Watches</h1><p>Men's Perfumes • Women's Perfumes • Stylish Watches</p><a href="#products" style="display:inline-block;background:#fff;color:#111;padding:12px 18px;border-radius:7px;text-decoration:none;font-weight:bold">Shop Now</a></div></section>
+
+<main class="wrap" id="products"><h2>Our Products</h2><div class="filters"><button class="filter active" onclick="setCat('All')">All</button><button class="filter" onclick="setCat('Men Perfumes')">Men Perfumes</button><button class="filter" onclick="setCat('Women Perfumes')">Women Perfumes</button><button class="filter" onclick="setCat('Watches')">Watches</button></div><div class="grid" id="grid"></div></main>
+
+<section class="wrap" id="payment"><div class="adminBox"><h2>Payment Methods</h2><p><b>Easypaisa:</b> 0332 6186710</p><p>After payment, send the transaction details on WhatsApp.</p></div></section>
+<section class="wrap" id="contact"><div class="adminBox" style="text-align:center"><h2>Contact Us</h2><p>WhatsApp: <b>0314 7393839</b></p><a class="primary green" style="display:inline-block;width:auto;text-decoration:none" href="https://wa.me/923147393839" target="_blank">Chat on WhatsApp</a></div></section>
+<footer>© 2026 DGK Online Store</footer>
+
+<!-- CART / CHECKOUT -->
+<div class="overlay" id="cartOv" onclick="if(event.target===this)closeCart()"><div class="panel"><button class="close" onclick="closeCart()">×</button><h2>Shopping Cart</h2><div id="cart"></div><div id="checkout"></div></div></div>
+
+<!-- ADMIN -->
+<div class="overlay" id="adminOv" onclick="if(event.target===this)closeAdmin()"><div class="panel"><button class="close" onclick="closeAdmin()">×</button><h2>Admin Panel</h2><p style="color:#777">Add or remove products from this browser.</p>
+<div class="adminBox">
+<h3>Add Product</h3>
+<input id="pname" placeholder="Product name">
+<select id="pcat"><option>Men Perfumes</option><option>Women Perfumes</option><option>Watches</option></select>
+<input id="pprice" type="number" placeholder="Price (PKR)">
+<textarea id="pdesc" placeholder="Short description"></textarea>
+<input id="pimg" type="file" accept="image/*" onchange="previewImage(event)">
+<img id="preview" class="preview" style="display:none">
+<button class="primary" onclick="addProduct()">Add Product</button>
+</div>
+<div class="productManage"><h3>Manage Products</h3><div id="manage"></div></div>
+</div></div>
+
+<script>
+const WA="923147393839";
+const defaultProducts=[
+{id:1,name:"Men's Perfume",cat:"Men Perfumes",price:2500,desc:"Premium men's perfume.",img:"https://via.placeholder.com/600x600?text=Men+Perfume"},
+{id:2,name:"Women's Perfume",cat:"Women Perfumes",price:2500,desc:"Elegant women's perfume.",img:"https://via.placeholder.com/600x600?text=Women+Perfume"},
+{id:3,name:"Classic Watch",cat:"Watches",price:3500,desc:"Stylish everyday watch.",img:"https://via.placeholder.com/600x600?text=Watch"}
+];
+let products=JSON.parse(localStorage.getItem("dgk_products")||"null")||defaultProducts;
+let cart=JSON.parse(localStorage.getItem("dgk_cart")||"[]"), category="All", imageData="";
+function save(){localStorage.setItem("dgk_products",JSON.stringify(products));localStorage.setItem("dgk_cart",JSON.stringify(cart));updateCount()}
+function updateCount(){document.getElementById("count").textContent=cart.reduce((a,b)=>a+b.qty,0)}
+function setCat(c){category=c;document.querySelectorAll(".filter").forEach(x=>x.classList.remove("active"));event?.target?.classList.add("active");render()}
+function render(){
+let q=document.getElementById("search").value.toLowerCase();
+let list=products.filter(p=>(category==="All"||p.cat===category)&&p.name.toLowerCase().includes(q));
+document.getElementById("grid").innerHTML=list.map(p=>`<div class="card"><div class="photo"><img src="${p.img}" alt="${p.name}"></div><div class="body"><div class="cat">${p.cat}</div><div class="name">${p.name}</div><div class="price">Rs. ${Number(p.price).toLocaleString()}</div><p style="color:#777;font-size:13px">${p.desc||""}</p><button class="add" onclick="add(${p.id})">Add to Cart</button></div></div>`).join("")||"<p>No products found.</p>";
+updateCount()
+}
+function add(id){let x=cart.find(a=>a.id===id);x?x.qty++:cart.push({id,qty:1});save();openCart()}
+function openCart(){document.getElementById("cartOv").style.display="block";renderCart()}
+function closeCart(){document.getElementById("cartOv").style.display="none"}
+function renderCart(){
+let box=document.getElementById("cart"), total=0;
+if(!cart.length){box.innerHTML="<div style='padding:30px;text-align:center;color:#777'>Your cart is empty.</div>";document.getElementById("checkout").innerHTML="";return}
+box.innerHTML=cart.map(c=>{let p=products.find(x=>x.id===c.id);if(!p)return "";total+=p.price*c.qty;return `<div class="row"><img src="${p.img}"><div style="flex:1"><b>${p.name}</b><div>Rs. ${p.price.toLocaleString()}</div><div><button onclick="qty(${p.id},-1)">−</button> ${c.qty} <button onclick="qty(${p.id},1)">+</button> <button onclick="removeItem(${p.id})">Remove</button></div></div></div>`}).join("");
+document.getElementById("checkout").innerHTML=`<div class="total"><span>Total</span><span>Rs. ${total.toLocaleString()}</span></div><h3>Customer Details</h3><div class="form"><input id="cname" placeholder="Full Name *"><input id="phone" placeholder="Phone Number *"><textarea id="address" placeholder="Complete Delivery Address *"></textarea><input id="city" placeholder="City"><select id="pay"><option>Easypaisa</option><option>JazzCash</option><option>Cash on Delivery</option></select><textarea id="note" placeholder="Order note (optional)"></textarea><button class="primary green" onclick="sendOrder()">Place Order on WhatsApp</button></div>`
+}
+function qty(id,d){let x=cart.find(a=>a.id===id);x.qty+=d;if(x.qty<=0)cart=cart.filter(a=>a.id!==id);save();renderCart()}
+function removeItem(id){cart=cart.filter(a=>a.id!==id);save();renderCart()}
+function sendOrder(){
+let name=document.getElementById("cname").value.trim(),phone=document.getElementById("phone").value.trim(),address=document.getElementById("address").value.trim(),city=document.getElementById("city").value.trim(),pay=document.getElementById("pay").value,note=document.getElementById("note").value.trim();
+if(!name||!phone||!address){alert("Please enter your name, phone number and complete address.");return}
+let lines=cart.map(c=>{let p=products.find(x=>x.id===c.id);return `${p.name} x${c.qty} = Rs. ${p.price*c.qty}`}).join("\n");
+let total=cart.reduce((s,c)=>s+products.find(p=>p.id===c.id).price*c.qty,0);
+let msg=`*New Order - DGK Online Store*%0A%0A*Products:*%0A${encodeURIComponent(lines)}%0A%0A*Total:* Rs. ${total}%0A*Customer:* ${encodeURIComponent(name)}%0A*Phone:* ${encodeURIComponent(phone)}%0A*Address:* ${encodeURIComponent(address)}%0A*City:* ${encodeURIComponent(city)}%0A*Payment:* ${encodeURIComponent(pay)}%0A*Note:* ${encodeURIComponent(note)}`;
+window.open(`https://wa.me/${WA}?text=${msg}`,"_blank")
+}
+function openAdmin(){document.getElementById("adminOv").style.display="block";renderManage()}
+function closeAdmin(){document.getElementById("adminOv").style.display="none"}
+function previewImage(e){let f=e.target.files[0];if(!f)return;let r=new FileReader();r.onload=()=>{imageData=r.result;let im=document.getElementById("preview");im.src=imageData;im.style.display="block"};r.readAsDataURL(f)}
+function addProduct(){
+let name=document.getElementById("pname").value.trim(),cat=document.getElementById("pcat").value,price=Number(document.getElementById("pprice").value),desc=document.getElementById("pdesc").value.trim();
+if(!name||!price||!imageData){alert("Please add a product name, price and image.");return}
+products.push({id:Date.now(),name,cat,price,desc,img:imageData});save();
+document.getElementById("pname").value="";document.getElementById("pprice").value="";document.getElementById("pdesc").value="";document.getElementById("pimg").value="";document.getElementById("preview").style.display="none";imageData="";renderManage();render();alert("Product added successfully.")
+}
+function renderManage(){document.getElementById("manage").innerHTML=products.map(p=>`<div class="manageItem"><img src="${p.img}"><div style="flex:1"><b>${p.name}</b><br><small>${p.cat} • Rs. ${p.price.toLocaleString()}</small></div><button class="danger" onclick="del(${p.id})">Delete</button></div>`).join("")}
+function del(id){if(confirm("Delete this product?")){products=products.filter(p=>p.id!==id);cart=cart.filter(c=>c.id!==id);save();renderManage();render()}}
+render();updateCount();
+</script>
+</body>
+</html>
