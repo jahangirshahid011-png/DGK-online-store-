@@ -85,7 +85,15 @@ let total=cart.reduce((s,c)=>s+products.find(p=>p.id===c.id).price*c.qty,0);
 let msg=`*New Order - DGK Online Store*%0A%0A*Products:*%0A${encodeURIComponent(lines)}%0A%0A*Total:* Rs. ${total}%0A*Customer:* ${encodeURIComponent(name)}%0A*Phone:* ${encodeURIComponent(phone)}%0A*Address:* ${encodeURIComponent(address)}%0A*City:* ${encodeURIComponent(city)}%0A*Payment:* ${encodeURIComponent(pay)}%0A*Note:* ${encodeURIComponent(note)}`;
 window.open(`https://wa.me/${WA}?text=${msg}`,"_blank")
 }
-function openAdmin(){document.getElementById("adminOv").style.display="block";renderManage()}
+function openAdmin(){
+  const password = prompt("Admin Password:");
+  if(password === "DGK161591"){
+    document.getElementById("adminOv").style.display = "block";
+    renderManage();
+  } else {
+    alert("Wrong Password");
+  }
+}
 function closeAdmin(){document.getElementById("adminOv").style.display="none"}
 function previewImage(e){let f=e.target.files[0];if(!f)return;let r=new FileReader();r.onload=()=>{imageData=r.result;let im=document.getElementById("preview");im.src=imageData;im.style.display="block"};r.readAsDataURL(f)}
 function addProduct(){
